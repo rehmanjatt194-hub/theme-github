@@ -384,9 +384,16 @@
     --color-white: #FFFFFF;
     --color-white-rgb: 255 255 255;
     --color-black: #000000;
+    --color-jewelry-tan: #c5a992;
+    --color-jewelry-beige: #fdf5f0;
     --color-instock: #3ED660;
     --color-lowstock: #EE9441;
     --color-outofstock: #C8C8C8;
+
+    /* Jewelry Aesthetic Overrides */
+    --color-accent: var(--color-jewelry-tan);
+    --color-primary-button-background: var(--color-jewelry-tan);
+    --color-primary-button-text: #fff;
 
     /* Opacity */
     --opacity-5: 0.05;
@@ -684,5 +691,52 @@
     --cart-secondary-font-family: var(--font-{{ settings.cart_price_font }}--family);
     --cart-secondary-font-style: var(--font-{{ settings.cart_price_font }}--style);
     --cart-secondary-font-weight: var(--font-{{ settings.cart_price_font }}--weight);
+  }
+
+  /* Jewelry Aesthetic Global Refinements */
+  .product-card__content {
+    background-color: var(--color-jewelry-beige);
+    border-radius: 120px 120px 40px 40px; /* Arched shape */
+    padding: 20px !important;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  .product-card:hover .product-card__content {
+    transform: translateY(-5px);
+  }
+  .product-title {
+    font-family: var(--font-heading--family);
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #000;
+    margin-top: 15px;
+  }
+  .price {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    margin-bottom: 15px;
+  }
+  .button.add-to-cart-button {
+    background-color: var(--color-jewelry-tan);
+    border-radius: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 12px 30px;
+    font-size: 12px;
+    width: 100%;
+    border: none;
+  }
+  .button.button--secondary {
+    background-color: transparent;
+    border: 1px solid var(--color-jewelry-tan);
+    color: var(--color-jewelry-tan);
+  }
+  
+  /* Product Page Font Refinement */
+  .product-information h1 {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    letter-spacing: 0.5px;
   }
 {% endstyle %}
