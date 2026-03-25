@@ -1,0 +1,350 @@
+{%- liquid
+  assign section_width_class = 'section--' | append: section.settings.section_width
+  assign autoplay = section.settings.autoplay
+  assign autoplay_speed = section.settings.autoplay_speed
+-%}
+
+{%- capture slides -%}
+  {%- for block in section.blocks -%}
+    <slideshow-slide
+      class="testimonial-card"
+      {{ block.shopify_attributes }}
+      slide-id="{{ block.id }}"
+    >
+      <div class="testimonial-card__content">
+        <div class="testimonial-card__quote-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" opacity="0.2">
+            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12M14.017 21C12.9124 21 12.017 20.1046 12.017 19V15C12.017 13.8954 12.9124 13 14.017 13H14.017M4.017 21L4.017 18C4.017 16.8954 4.91238 16 6.017 16H9.017C9.56928 16 10.017 15.5523 10.017 15V9C10.017 8.44772 9.56928 8 9.017 8H5.017C4.46472 8 4.017 8.44772 4.017 9V12M4.017 21C2.91238 21 2.017 20.1046 2.017 19V15C2.017 13.8954 2.91238 13 4.017 13H4.017" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="testimonial-card__text">
+          {{ block.settings.text }}
+        </div>
+        <div class="testimonial-card__rating">
+          {%- for i in (1..5) -%}
+            {%- liquid
+              assign icon_color = '#ccc'
+              if i <= block.settings.rating
+                assign icon_color = '#ffb400'
+              endif
+            -%}
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="{{ icon_color }}">
+              <path d="M10 2.62639L8.54072 7.33639C8.34848 7.95687 7.79714 8.37696 7.17504 8.37696H2.45272L6.27316 11.2879C6.77645 11.6714 6.98704 12.3511 6.7948 12.9716L5.33552 17.6816L9.15596 14.7706C9.65925 14.3872 10.3408 14.3872 10.844 14.7706L14.6645 17.6816L13.2052 12.9716C13.013 12.3511 13.2236 11.6714 13.7268 11.2879L17.5473 8.37696H12.825C12.2029 8.37696 11.6515 7.95687 11.4593 7.33639L10 2.62639Z"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <div class="testimonial-card__footer">
+          {%- if block.settings.image != blank -%}
+            <div class="testimonial-card__image-wrapper">
+              {{ block.settings.image | image_url: width: 100 | image_tag: loading: 'lazy', class: 'testimonial-card__image' }}
+            </div>
+          {%- else -%}
+             <div class="testimonial-card__image-wrapper testimonial-card__image-placeholder">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {%- endif -%}
+          <div class="testimonial-card__info">
+            <h3 class="testimonial-card__name">{{ block.settings.name }}</h3>
+            <p class="testimonial-card__role">{{ block.settings.role }}</p>
+          </div>
+        </div>
+      </div>
+    </slideshow-slide>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture controls -%}
+  {%- render 'slideshow-controls',
+    style: 'dots',
+    item_count: section.blocks.size,
+    show_arrows: false,
+    pagination_position: 'center'
+  -%}
+{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="testimonial-slider-section {{ section_width_class }} color-{{ section.settings.color_scheme }} spacing-style" style="{% render 'spacing-padding', settings: section.settings %}">
+  <div class="testimonial-slider__header">
+    {%- if section.settings.subtitle != blank -%}
+      <h4 class="testimonial-slider__subtitle">{{ section.settings.subtitle }}</h4>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="testimonial-slider__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+  </div>
+
+  {% render 'slideshow',
+    slides: slides,
+    slide_count: section.blocks.size,
+    controls: controls,
+    autoplay: autoplay,
+    autoplay_speed: autoplay_speed,
+    infinite: true
+  %}
+</div>
+
+{% stylesheet %}
+  .testimonial-slider-section {
+    text-align: center;
+    padding-block: 4rem;
+  }
+
+  .testimonial-slider__header {
+    margin-bottom: 3rem;
+  }
+
+  .testimonial-slider__subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-foreground-secondary);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading-family);
+  }
+
+  .testimonial-slider__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .testimonial-card {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .testimonial-card {
+      width: 33.333%;
+    }
+  }
+
+  .testimonial-card__content {
+    background: var(--color-background);
+    border: 1px solid rgba(var(--color-foreground), 0.1);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .testimonial-card__content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+
+  .testimonial-card__quote-icon {
+    margin-bottom: 1.5rem;
+    color: var(--color-foreground);
+  }
+
+  .testimonial-card__text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    flex-grow: 1;
+  }
+
+  .testimonial-card__rating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-card__footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .testimonial-card__image-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .testimonial-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .testimonial-card__image-placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .testimonial-card__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonial-card__name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .testimonial-card__role {
+    font-size: 0.85rem;
+    margin: 0;
+    color: var(--color-foreground-secondary);
+  }
+
+  /* Custom Dots Styling */
+  slideshow-controls .dots {
+    margin-top: 2rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonial Slider",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "LOVED BY OUR CUSTOMERS"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Happy Customer"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Change slides every",
+      "min": 3,
+      "max": 9,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Testimonial text",
+          "default": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text 1500s."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Customer role",
+          "default": "Founder & CEO"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial Slider",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
