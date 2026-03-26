@@ -542,75 +542,125 @@
   </div>
 </div>
 
+<div class="hero__slider-arrows">
+  <div class="hero__arrow hero__arrow--prev">{% render 'icon', icon: 'chevron-left' %}</div>
+  <div class="hero__arrow hero__arrow--next">{% render 'icon', icon: 'chevron-right' %}</div>
+</div>
+
 <style>
   .hero__content-wrapper--jewelry {
     display: flex;
     align-items: center;
-    justify-content: flex-start !important; /* Force left align for luxury look */
-    padding-left: 10% !important;
+    justify-content: flex-start !important;
+    padding-left: 8% !important;
     text-align: left !important;
+    background: #fdfaf7; /* Soft light tan background to match image */
   }
   .hero__jewelry-content {
-    max-width: 600px;
+    max-width: 550px;
     z-index: 2;
   }
   .hero__jewelry-content .text-block h1,
   .hero__jewelry-content .text-block h2 {
-    font-family: "Playfair Display", serif !important; /* Elegant serif for jewelry */
-    font-size: clamp(32px, 5vw, 64px) !important;
+    font-family: "Playfair Display", serif !important;
+    font-size: clamp(40px, 6vw, 72px) !important;
     font-weight: 500 !important;
     line-height: 1.1 !important;
-    margin: 10px 0 !important;
-    color: inherit;
+    margin: 15px 0 !important;
+    color: #1a1a1a !important;
   }
   .hero__jewelry-content .text-block p {
-    font-size: 18px !important;
-    opacity: 0.9;
-    margin-bottom: 30px !important;
+    font-size: clamp(14px, 2vw, 18px) !important;
+    color: #4a4a4a !important;
+    margin-bottom: 35px !important;
+    letter-spacing: 0.05em;
   }
-  /* Style for Top Label */
+  /* Top Label styling */
   .hero__jewelry-content .text-block:first-child h6,
-  .hero__jewelry-content .text-block:first-child p {
+  .hero__jewelry-content .text-block:first-child p:not(.h2):not(.h1) {
     text-transform: uppercase !important;
-    letter-spacing: 0.2em !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    margin-bottom: 5px !important;
+    letter-spacing: 0.3em !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    margin-bottom: 10px !important;
+    color: #666 !important;
   }
-  /* Button Styling */
+  /* Button Styling - Black rectangle */
   .hero__jewelry-content .button-block a,
   .hero__jewelry-content .button {
-    background: #000 !important;
+    background: #1a1a1a !important;
     color: #fff !important;
     border-radius: 0 !important;
-    padding: 15px 40px !important;
+    padding: 16px 45px !important;
+    font-size: 14px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.1em !important;
+    letter-spacing: 0.15em !important;
     border: none !important;
-    transition: background 0.3s ease;
+    display: inline-block;
   }
-  .hero__jewelry-content .button-block a:hover {
-    background: #333 !important;
+  /* Slider Arrows Decoration */
+  .hero__slider-arrows {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    transform: translateY(-50%);
+    z-index: 5;
+    pointer-events: none;
+  }
+  .hero__arrow {
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+  }
+  .hero__arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: #1a1a1a;
+  }
+  .hero__arrow:hover {
+    background: #1a1a1a;
+  }
+  .hero__arrow:hover svg {
+    fill: #fff;
   }
 
   /* Fix for image clipping */
   .hero {
-    min-height: 600px !important; /* Ensure enough height to avoid clipping */
+    min-height: 700px !important; /* Taller hero for luxury feel */
   }
   .hero__media {
-    object-fit: cover !important; /* Ensure image fills space proportionally */
-    object-position: center !important;
+    object-fit: cover !important;
+    object-position: right center !important; /* Move person to right */
   }
 
   @media screen and (max-width: 749px) {
     .hero__content-wrapper--jewelry {
       padding-left: 20px !important;
+      padding-right: 20px !important;
       justify-content: center !important;
       text-align: center !important;
     }
     .hero {
-      min-height: 450px !important;
+      min-height: 550px !important;
+    }
+    .hero__arrow {
+      width: 40px;
+      height: 40px;
+    }
+    .hero__jewelry-content .text-block h1 {
+      font-size: 38px !important;
     }
   }
 </style>
