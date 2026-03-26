@@ -1,44 +1,88 @@
 
 
-{% if section.blocks.size > 1 %}
-  <script
-    src="{{ 'announcement-bar.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-{% endif %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
->
-  {% liquid
-    assign autoplay = false
-    assign show_arrows = false
-    if section.blocks.size > 1
-      assign autoplay = true
-      assign show_arrows = true
-    endif
-  %}
-
-  <announcement-bar-component
-    class="announcement-bar__slider"
-    {% if autoplay == true %}
-      autoplay="{{ section.settings.speed }}" aria-live="polite"
-    {% endif %}
-  >
-    {% if show_arrows %}
-      {% render 'slideshow-arrows', icon_style: 'chevron' %}
-    {% endif %}
-
-    <div class="announcement-bar__slides">
-      {% content_for 'blocks' %}
+{%- if section.settings.layout == 'marquee' -%}
+  <div class="announcement-bar-marquee section-background color-{{ section.settings.color_scheme }}" style="--speed: {{ section.settings.speed }}s;">
+    <div class="announcement-bar-marquee__content">
+      {%- for i in (1..10) -%}
+        {%- for block in section.blocks -%}
+          <div class="announcement-bar-marquee__item" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
     </div>
-  </announcement-bar-component>
-</aside>
+  </div>
+{%- else -%}
+  {% if section.blocks.size > 1 %}
+    <script
+      src="{{ 'announcement-bar.js' | asset_url }}"
+      type="module"
+      fetchpriority="low"
+    ></script>
+  {% endif %}
+
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <aside
+    class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+    style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+  >
+    {% liquid
+      assign autoplay = false
+      assign show_arrows = false
+      if section.blocks.size > 1
+        assign autoplay = true
+        assign show_arrows = true
+      endif
+    %}
+
+    <announcement-bar-component
+      class="announcement-bar__slider"
+      {% if autoplay == true %}
+        autoplay="{{ section.settings.speed }}" aria-live="polite"
+      {% endif %}
+    >
+      {% if show_arrows %}
+        {% render 'slideshow-arrows', icon_style: 'chevron' %}
+      {% endif %}
+
+      <div class="announcement-bar__slides">
+        {% content_for 'blocks' %}
+      </div>
+    </announcement-bar-component>
+  </aside>
+{%- endif -%}
 
 {% stylesheet %}
+  .announcement-bar-marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+
+  .announcement-bar-marquee__content {
+    display: flex;
+    animation: marquee var(--speed) linear infinite;
+  }
+
+  .announcement-bar-marquee__item {
+    padding: 0 4rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
   }
@@ -136,13 +180,30 @@
   },
   "settings": [
     {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "marquee",
+          "label": "Marquee (Scrolling)"
+        }
+      ],
+      "default": "marquee"
+    },
+    {
       "type": "range",
       "id": "speed",
       "label": "t:settings.scroll_speed",
-      "min": 2,
-      "max": 10,
-      "default": 5,
-      "unit": "sec"
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "default": 20,
+      "unit": "s"
     },
     {
       "type": "header",

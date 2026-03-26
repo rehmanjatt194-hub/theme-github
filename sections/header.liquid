@@ -435,6 +435,36 @@
     #header-component[data-menu-style='menu'] :is(.header-menu, .dropdown-localization) {
       display: flex;
     }
+    
+    /* Luxury 3-Column Header Layout (Search | Logo | Cart) */
+    .header__row--top .header__columns {
+      display: grid !important;
+      grid-template-columns: 1fr 2fr 1fr !important;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .header__row--top .header__column--left {
+      justify-content: flex-start !important;
+      display: flex;
+    }
+    
+    .header__row--top .header__column--center {
+      justify-content: center !important;
+      display: flex;
+    }
+    
+    .header__row--top .header__column--right {
+      justify-content: flex-end !important;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    /* Centered Navigation Row */
+    .header__row--bottom .header__columns {
+      justify-content: center !important;
+      display: flex;
+    }
   }
 
   #header-component[data-menu-style='drawer'] .header__column {
