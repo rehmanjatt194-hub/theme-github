@@ -73,9 +73,9 @@
 {%- endstyle -%}
 
 <div class="features-bar-{{ section.id }}">
-  <div class="features-bar__grid">
+  <div class="features-bar__grid" data-animate>
     {% for block in section.blocks %}
-      <div class="features-bar__item" {{ block.shopify_attributes }}>
+      <div class="features-bar__item stagger-item" {{ block.shopify_attributes }}>
         <div class="features-bar__icon">
           {% if block.settings.custom_icon_svg != blank %}
             {{ block.settings.custom_icon_svg }}

@@ -76,10 +76,10 @@
     <h2 class="circular-categories__title">{{ section.settings.title | escape }}</h2>
   {% endif %}
 
-  <div class="circular-categories__grid">
+  <div class="circular-categories__grid" data-animate>
     {% for block in section.blocks %}
       {%- assign collection = collections[block.settings.collection] -%}
-      <a href="{{ collection.url | default: '#' }}" class="circular-categories__item" {{ block.shopify_attributes }}>
+      <a href="{{ collection.url | default: '#' }}" class="circular-categories__item stagger-item" {{ block.shopify_attributes }}>
         <div class="circular-categories__image-wrapper">
           {% if block.settings.image != blank or collection.image != blank or collection.featured_image != blank %}
             {% liquid

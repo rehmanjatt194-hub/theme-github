@@ -80,9 +80,9 @@
       <h2 class="faq-jewelry__title center">{{ section.settings.title | escape }}</h2>
     {%- endif -%}
 
-    <div class="faq-jewelry__grid">
+    <div class="faq-jewelry__grid" data-animate>
       {%- for block in section.blocks -%}
-        <details class="faq-jewelry__item" {{ block.shopify_attributes }}>
+        <details class="faq-jewelry__item stagger-item" {{ block.shopify_attributes }}>
           <summary>
             <span>{{ block.settings.question | escape }}</span>
             <span class="faq-jewelry__icon">+</span>

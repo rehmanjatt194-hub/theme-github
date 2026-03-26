@@ -1,0 +1,98 @@
+{%- comment -%}
+  Premium Scroll Animations for Jewelry Store
+{%- endcomment -%}
+
+<style>
+  /* Base animation state */
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+  }
+
+  /* Revealed state */
+  [data-animate].animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Fade-in only variation */
+  [data-animate="fade"] {
+    transform: none;
+  }
+
+  /* Scale variation */
+  [data-animate="scale"] {
+    transform: scale(0.96) translateY(20px);
+  }
+  [data-animate="scale"].animated {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Stagger delays for children */
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transition-delay: calc(var(--stagger-index, 0) * 150ms);
+  }
+
+  .animated .stagger-item,
+  .stagger-item.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  (function() {
+    const initAnimations = () => {
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -80px 0px',
+        threshold: 0.05
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animated');
+            
+            // Handle staggered children
+            const staggerItems = entry.target.querySelectorAll('.stagger-item');
+            staggerItems.forEach((item, index) => {
+              item.style.setProperty('--stagger-index', index);
+              // Trigger child animation if it hasn't been yet
+              setTimeout(() => item.classList.add('animated'), 50);
+            });
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Select all elements with data-animate
+      const animateElements = document.querySelectorAll('[data-animate]');
+      animateElements.forEach(el => observer.observe(el));
+    };
+
+    // Initialize on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAnimations);
+    } else {
+      initAnimations();
+    }
+
+    // Support Shopify Theme Editor
+    document.addEventListener('shopify:section:load', (event) => {
+      initAnimations();
+    });
+    
+    document.addEventListener('shopify:section:select', (event) => {
+        event.target.querySelectorAll('[data-animate]').forEach(el => el.classList.add('animated'));
+    });
+  })();
+</script>
