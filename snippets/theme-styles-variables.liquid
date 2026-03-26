@@ -700,39 +700,84 @@
     padding: 20px !important;
     text-align: center;
     transition: transform 0.3s ease;
+    overflow: hidden; /* Ensure image doesn't overflow the arch */
+    position: relative;
+    display: flex;
+    flex-direction: column;
   }
   .product-card:hover .product-card__content {
     transform: translateY(-5px);
   }
+  /* Fix for image fitting the arch */
+  .product-card .card-gallery, 
+  .product-card .card-gallery__media,
+  .product-card .card-gallery__item img {
+    border-radius: 100px 100px 0 0 !important;
+  }
+  
   .product-title {
     font-family: var(--font-heading--family);
     font-size: 14px !important;
     font-weight: 500 !important;
     color: #000;
     margin-top: 15px;
+    order: 2;
   }
   .price {
     font-weight: 600 !important;
     font-size: 14px !important;
     margin-bottom: 15px;
+    order: 3;
   }
-  .button.add-to-cart-button {
-    background-color: var(--color-jewelry-tan);
-    border-radius: 0;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 12px 30px;
-    font-size: 12px;
+
+  /* Transform Quick Add button to Pandora style */
+  .quick-add {
+    position: relative !important;
+    inset: auto !important;
+    margin-top: 10px;
+    order: 4;
     width: 100%;
-    border: none;
+    pointer-events: all !important;
   }
-  .button.button--secondary {
-    background-color: transparent;
-    border: 1px solid var(--color-jewelry-tan);
-    color: var(--color-jewelry-tan);
+  .quick-add__button {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    display: flex !important;
+    background: var(--color-jewelry-tan) !important;
+    color: #fff !important;
+    border-radius: 0 !important;
+    border: none !important;
+    height: 44px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    font-size: 12px !important;
+    backdrop-filter: none !important;
   }
-  
+  .quick-add__button .add-to-cart-text {
+    background: transparent !important;
+    color: #fff !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+  }
+  .quick-add__button .add-to-cart-text__content {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+  .quick-add__button .add-to-cart-text__content span span {
+    opacity: 1 !important;
+    filter: none !important;
+    translate: none !important;
+    padding-right: 0 !important;
+  }
+  .quick-add__button .add-to-cart-icon {
+    display: none !important; /* Hide icon to make it just text like the image */
+  }
+
   /* Product Page Font Refinement */
   .product-information h1 {
     font-family: var(--font-heading--family);
