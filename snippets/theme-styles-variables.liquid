@@ -695,24 +695,27 @@
 
   /* Jewelry Aesthetic Global Refinements */
   .product-card__content {
-    background-color: var(--color-jewelry-beige);
-    border-radius: 120px 120px 40px 40px; /* Arched shape */
-    padding: 20px !important;
+    background-color: #fff; /* Changed to white as per user request */
+    border-radius: 12px; /* Changed to rectangle as per user request */
+    padding: 15px !important;
     text-align: center;
     transition: transform 0.3s ease;
-    overflow: hidden; /* Ensure image doesn't overflow the arch */
+    overflow: visible; /* Ensure sale badge is visible */
     position: relative;
     display: flex;
     flex-direction: column;
+    border: 1px solid #eee; /* Subtle border for white cards */
   }
   .product-card:hover .product-card__content {
     transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
   }
-  /* Fix for image fitting the arch */
+  
+  /* Reset image fitting for rectangle */
   .product-card .card-gallery, 
   .product-card .card-gallery__media,
   .product-card .card-gallery__item img {
-    border-radius: 100px 100px 0 0 !important;
+    border-radius: 8px 8px 0 0 !important;
   }
   
   .product-title {
@@ -720,14 +723,22 @@
     font-size: 14px !important;
     font-weight: 500 !important;
     color: #000;
-    margin-top: 15px;
+    margin-top: 10px;
     order: 2;
   }
   .price {
     font-weight: 600 !important;
     font-size: 14px !important;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     order: 3;
+  }
+
+  /* Sale Badge Fix */
+  .product-badges {
+    z-index: 10;
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
   }
 
   /* Transform Quick Add button to Pandora style */
@@ -763,6 +774,9 @@
     color: #fff !important;
     border-radius: 0 !important;
     width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .quick-add__button .add-to-cart-text__content {
     display: block !important;
@@ -775,7 +789,7 @@
     padding-right: 0 !important;
   }
   .quick-add__button .add-to-cart-icon {
-    display: none !important; /* Hide icon to make it just text like the image */
+    display: none !important;
   }
 
   /* Product Page Font Refinement */
